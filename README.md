@@ -8,7 +8,7 @@ Project template used: <a href="https://github.com/RezeScarlet/CMake-Raylib-cpp-
 - <a href="https://github.com/ocornut/imgui">ImGui</a>
 - <a href="https://github.com/raylib-extras/rlImGui">rlImGui</a>
 
-```
+## How to Build
 Generate build files and build
 ```
 mkdir build/
