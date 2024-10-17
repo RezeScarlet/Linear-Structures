@@ -1,5 +1,4 @@
-#ifndef LINEAR_STRUCTURES_GRAPHICS_HPP_INCLUDED
-#define LINEAR_STRUCTURES_GRAPHICS_HPP_INCLUDED
+#pragma once
 
 #include <raylib-cpp.hpp>
 #include <raylib.h>
@@ -31,5 +30,3 @@ public:
 };
 
 } // namespace Graphics
-
-#endif
