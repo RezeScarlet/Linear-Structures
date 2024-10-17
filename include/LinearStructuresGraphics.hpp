@@ -24,7 +24,7 @@ public:
 
   StackGraphics(int fontSize = 20,
                 raylib::Vector2 nodeCenter = {(float)GetScreenWidth() / 2,
-                                              (float)GetScreenHeight()},
+                                              (float)GetScreenHeight() + 40},
                 int nodeRadius = 30, int nodeGap = -75,
                 raylib::Color fontColor = raylib::Color::Red(),
                 raylib::Color outlineColor = raylib::Color::Red());
