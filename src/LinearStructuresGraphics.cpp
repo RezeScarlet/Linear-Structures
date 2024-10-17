@@ -4,7 +4,6 @@
 #include <stack>
 #include <string>
 
-// Implementação do construtor e métodos
 namespace Graphics {
 
 StackGraphics::StackGraphics(int posY, int fontSize, int nodeCenterX,
@@ -26,10 +25,12 @@ void StackGraphics::Draw() {
   for (std::stack<int>::size_type i = 0; i < stack.size(); i++) {
     std::string nodeText = std::to_string(stackCopy.top());
     int nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
+    int nodeTextHeight = fontSize;
 
-    // Desenha o texto e o círculo
-    raylib::DrawText(nodeText.c_str(), (i * nodeGap) + nodeCenterX, nodeCenterY,
-                     fontSize, fontColor);
+    int textX = (i * nodeGap) + nodeCenterX - (nodeTextWidth / 2);
+    int textY = nodeCenterY - (nodeTextHeight / 2);
+
+    raylib::DrawText(nodeText, textX, textY, fontSize, fontColor);
     DrawCircleLines((i * nodeGap) + nodeCenterX, nodeCenterY, nodeRadius,
                     outlineColor);
 

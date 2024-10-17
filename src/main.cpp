@@ -80,7 +80,8 @@ int main() {
         Graphics::StackGraphics sg;
 
         sg.stack.push(1);
-        sg.stack.push(2);
+        sg.stack.push(20);
+        sg.stack.push(100);
 
         sg.Draw();
       }
