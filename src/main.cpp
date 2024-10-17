@@ -1,9 +1,11 @@
+#include "../include/LinearStructuresGraphics.hpp"
 #include "Color.hpp"
 #include <imgui.h>
 #include <raylib-cpp.hpp>
 #include <raylib.h>
 #include <rlImGui.h>
 
+// TODO CREATE HEADER FILES FOR THE TWO METHODS BELOW
 // Got this function from an issue in the Dear ImGui Github
 bool ButtonCenteredOnLine(const char *label, ImVec2 buttonSize,
                           float alignment = 0.5f) {
@@ -54,8 +56,8 @@ int main() {
 
     ClearBackground(raylib::Color::White());
 
-    // Chose style
-    // ImGui::SetNextWindowBgAlpha(0);
+    // Choose style
+    ImGui::SetNextWindowBgAlpha(0);
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(wh);
     if (ImGui::Begin("Main Menu", __null,
@@ -73,7 +75,14 @@ int main() {
       ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                             (ImVec4)ImColor::HSV(343, 0.5269, 0.8232));
       if (ButtonCenteredOnLine("Pilha", buttonSize)) {
-        // Link to file
+        ClearBackground(raylib::Color::White());
+
+        Graphics::StackGraphics sg;
+
+        sg.stack.push(1);
+        sg.stack.push(2);
+
+        sg.Draw();
       }
       ImGui::PopStyleColor(3);
       if (ButtonCenteredOnLine("Fila", buttonSize)) {
