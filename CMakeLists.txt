@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 # project name and version
-project(raylib-project)
+project(linear-structures)
 
 # C++ minimum version  required
 set(CMAKE_CXX_STANDARD 17)
@@ -13,9 +13,9 @@ include(FetchContent)
 # Glob finds all files in a directory, src/ in this case, and assign to the SRC_FILES variable
 file(GLOB SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 # Creates the executable with the source files
-add_executable(raylib-project ${SRC_FILES})
+add_executable(linear-structures ${SRC_FILES})
 # Sets the include directory
-target_include_directories(raylib-project PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(linear-structures PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 # =============== 
 # ==== IMGUI ==== 
@@ -101,4 +101,4 @@ endif()
 
 
 # Link all libraries to the project
-target_link_libraries(raylib-project PRIVATE imgui rlimgui raylib raylib_cpp)
+target_link_libraries(linear-structures PRIVATE imgui rlimgui raylib raylib_cpp)
