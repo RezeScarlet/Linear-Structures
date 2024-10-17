@@ -44,6 +44,7 @@ int main() {
   float h = window.GetHeight();
   float w = window.GetWidth();
   ImVec2 wh(w, h);
+  Graphics::StackGraphics sg;
 
   rlImGuiSetup(true);
 
@@ -75,15 +76,10 @@ int main() {
       ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                             (ImVec4)ImColor::HSV(343, 0.5269, 0.8232));
       if (ButtonCenteredOnLine("Pilha", buttonSize)) {
-        ClearBackground(raylib::Color::White());
-
-        Graphics::StackGraphics sg;
+        // ClearBackground(raylib::Color::White());
 
         sg.stack.push(1);
-        sg.stack.push(20);
-        sg.stack.push(100);
-
-        sg.Draw();
+        sg.stack.push(2);
       }
       ImGui::PopStyleColor(3);
       if (ButtonCenteredOnLine("Fila", buttonSize)) {
@@ -98,6 +94,7 @@ int main() {
     }
     ImGui::End();
 
+    sg.Draw();
     rlImGuiEnd();
     EndDrawing();
   }

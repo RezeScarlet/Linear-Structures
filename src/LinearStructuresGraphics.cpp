@@ -1,4 +1,6 @@
 #include "../include/LinearStructuresGraphics.hpp"
+#include "Functions.hpp"
+#include "Vector2.hpp"
 #include <raylib-cpp.hpp>
 #include <raylib.h>
 #include <stack>
@@ -6,14 +8,12 @@
 
 namespace Graphics {
 
-StackGraphics::StackGraphics(int posY, int fontSize, int nodeCenterX,
-                             int nodeCenterY, int nodeRadius, int nodeGap,
+StackGraphics::StackGraphics(int fontSize, raylib::Vector2 nodeCenter,
+                             int nodeRadius, int nodeGap,
                              raylib::Color fontColor,
                              raylib::Color outlineColor) {
-  this->nodeCenterY = posY;
   this->fontSize = fontSize;
-  this->nodeCenterX = nodeCenterX;
-  this->nodeCenterY = nodeCenterY;
+  this->nodeCenter = nodeCenter;
   this->nodeRadius = nodeRadius;
   this->nodeGap = nodeGap;
   this->fontColor = fontColor;
@@ -22,8 +22,34 @@ StackGraphics::StackGraphics(int posY, int fontSize, int nodeCenterX,
 
 void StackGraphics::Draw() {
   std::stack<int> stackCopy = stack;
-  for (std::stack<int>::size_type i = 0; i < stack.size(); i++) {
+  int i = stackCopy.size();
+
+  while (!stackCopy.empty()) {
     std::string nodeText = std::to_string(stackCopy.top());
+    float nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
+    float nodeTextHeight = fontSize;
+
+    while (nodeTextWidth > nodeRadius) {
+      fontSize /= 2;
+      nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
+    }
+
+    float textX = nodeCenter.x - (nodeTextWidth / 2);
+    float textY = (i * nodeGap) + nodeCenter.y - (nodeTextHeight / 2);
+
+    raylib::DrawText(nodeText, textX, textY, fontSize, fontColor);
+    DrawCircleLines(nodeCenter.x, (i * nodeGap) + nodeCenter.y, nodeRadius,
+                    outlineColor);
+    i--;
+    stackCopy.pop();
+  }
+}
+
+/*
+  void QueueGraphics::Draw() {
+  std::queue<int> queueCopy = queue;
+  for (int i = 0; i < queue.size(); i++) {
+    std::string nodeText = std::to_string(queueCopy.top());
     int nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
     int nodeTextHeight = fontSize;
 
@@ -34,8 +60,9 @@ void StackGraphics::Draw() {
     DrawCircleLines((i * nodeGap) + nodeCenterX, nodeCenterY, nodeRadius,
                     outlineColor);
 
-    stackCopy.pop();
+    queueCopy.pop();
   }
 }
+*/
 
 } // namespace Graphics
