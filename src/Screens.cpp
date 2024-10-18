@@ -1,4 +1,3 @@
-#include "Color.hpp"
 #include "LinearStructuresGraphics.hpp"
 #include "Utils.hpp"
 #include <imgui.h>
@@ -6,88 +5,72 @@
 #include <raylib.h>
 #include <rlImGui.h>
 
-float h = GetScreenHeight();
-float w = GetScreenWidth();
-ImVec2 wh(w, h);
+int MainMenuScreen(ImVec2 windowSize) {
+  int structureIdentifier = 0;
+  ImVec2 buttonSize(windowSize.x / 5, windowSize.y / 8);
 
-int MainMenuScreen() {
-  ImVec2 buttonSize(w / 5, h / 8);
-
-  // Choose style
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
-  ImGui::SetNextWindowSize(wh);
+  ImGui::SetNextWindowSize(windowSize);
   if (ImGui::Begin("Main Menu", __null,
                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
                        ImGuiWindowFlags_NoTitleBar)) {
+
     ImGui::Dummy(buttonSize);
+
     ImGui::SetWindowFontScale(4);
     TextCenteredOnLine("Estruturas Lineares");
     ImGui::SetWindowFontScale(2);
+
     ImGui::Dummy(buttonSize);
-    ImGui::PushStyleColor(ImGuiCol_Button,
-                          (ImVec4)ImColor::HSV(343, 0.5269, 0.9232));
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
-                          (ImVec4)ImColor::HSV(343, 0.5269, 0.9932));
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive,
-                          (ImVec4)ImColor::HSV(343, 0.5269, 0.8232));
-    if (ButtonCenteredOnLine("Pilha", buttonSize)) {
-      return 1;
-    }
-    ImGui::PopStyleColor(3);
-    if (ButtonCenteredOnLine("Fila", buttonSize)) {
-      return 2;
-    }
-    if (ButtonCenteredOnLine("Deque", buttonSize)) {
-      return 3;
-    }
-    if (ButtonCenteredOnLine("Lista", buttonSize)) {
-      return 4;
+
+    const char *structures[] = {"Pilha", "Fila", "Deque", "Lista"};
+    for (int i = 1; i <= sizeof(structures) / sizeof(structures[0]); i++) {
+      StyleButton(i);
+      if (ButtonCenteredOnLine(structures[i - 1], buttonSize)) {
+        structureIdentifier = 1;
+      }
+      PopStyleColor(1, 5);
     }
   }
+
   ImGui::End();
-  return 0;
+  return structureIdentifier;
 }
 
-bool GraphicsScreen(int structureIdentifier) {
-
+bool GraphicsScreen(ImVec2 windowSize, int structureIdentifier) {
   Graphics::StackGraphics sg;
-  ImVec2 buttonSize(w / 5, h / 8);
+  ImVec2 buttonSize(windowSize.x / 12, windowSize.y / 15);
 
-  ClearBackground(raylib::Color::White());
-
-  // Choose style
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
-  ImGui::SetNextWindowSize(wh);
+  ImGui::SetNextWindowSize(windowSize);
   if (ImGui::Begin("Main Menu", __null,
                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
                        ImGuiWindowFlags_NoTitleBar)) {
-    ImGui::Dummy(buttonSize);
-    ImGui::SetWindowFontScale(4);
-    TextCenteredOnLine("Estruturas Lineares");
-    ImGui::SetWindowFontScale(2);
-    ImGui::Dummy(buttonSize);
-    ImGui::PushStyleColor(ImGuiCol_Button,
-                          (ImVec4)ImColor::HSV(343, 0.5269, 0.9232));
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
-                          (ImVec4)ImColor::HSV(343, 0.5269, 0.9932));
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive,
-                          (ImVec4)ImColor::HSV(343, 0.5269, 0.8232));
-    ImGui::PopStyleColor(3);
-    if (ButtonCenteredOnLine("Add", buttonSize)) {
+
+    const char *structures[] = {"Pilha", "Fila", "Deque", "Lista"};
+    ImGui::SeparatorText(structures[structureIdentifier - 1]);
+
+    ImGui::SetWindowFontScale(1.3);
+    StyleButton(structureIdentifier - 1);
+    if (ImGui::Button("Add", buttonSize)) {
       sg.stack.push(1);
-      sg.stack.push(20);
-      sg.stack.push(100);
+      sg.stack.push(2);
+
     }
-    if (ButtonCenteredOnLine("Remove", buttonSize)) {
-      // Link to file
+    ImGui::SameLine();
+    if (ImGui::Button("Remove", buttonSize)) {
+      sg.stack.pop();
+
     }
-    if (ButtonCenteredOnLine("Sair", buttonSize)) {
-      return 0;
-      // Link to file
+    ImGui::SameLine();
+    if (ImGui::Button("Sair", buttonSize)) {
+      structureIdentifier = 0;
+
     }
   }
+  PopStyleColor(1, 5);
   ImGui::End();
   sg.Draw();
   return structureIdentifier;

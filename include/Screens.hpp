@@ -4,5 +4,5 @@
 #include <raylib.h>
 #include <rlImGui.h>
 
-bool GraphicsScreen(int structureIdentifier);
-int MainMenuScreen();
+bool GraphicsScreen(ImVec2 windowSize, int structureIdentifier);
+int MainMenuScreen(ImVec2 windowSize);
