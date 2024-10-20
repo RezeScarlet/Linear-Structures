@@ -1,13 +1,28 @@
+#include "Screens.hpp"
 #include "LinearStructuresGraphics.hpp"
 #include "Utils.hpp"
 #include <imgui.h>
+#include <iostream>
 #include <raylib-cpp.hpp>
 #include <raylib.h>
 #include <rlImGui.h>
 
-int MainMenuScreen(ImVec2 windowSize) {
-  int structureIdentifier = 0;
-  ImVec2 buttonSize(windowSize.x / 5, windowSize.y / 8);
+ScreenAtributes::ScreenAtributes(ImVec2 windowSize) {
+  this->windowSize = windowSize;
+
+  this->screenIdentifier = 0;
+
+  this->structures[0] = "";
+  this->structures[1] = "Pilha";
+  this->structures[2] = "Fila";
+  this->structures[3] = "Deque";
+  this->structures[4] = "Lista";
+
+  this->mainMenuButtonSize = ImVec2(windowSize.x / 5, windowSize.y / 8);
+  this->graphicsScreenButtonSize = ImVec2(windowSize.x / 12, windowSize.y / 15);
+}
+
+void MainMenuScreen(ImVec2 windowSize, ScreenAtributes& atributes) {
 
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -16,32 +31,28 @@ int MainMenuScreen(ImVec2 windowSize) {
                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
                        ImGuiWindowFlags_NoTitleBar)) {
 
-    ImGui::Dummy(buttonSize);
+    ImGui::Dummy(atributes.mainMenuButtonSize);
 
     ImGui::SetWindowFontScale(4);
-    TextCenteredOnLine("Estruturas Lineares");
+    TextCenteredOnLine("ESTRUTURAS LINEARES");
     ImGui::SetWindowFontScale(2);
 
-    ImGui::Dummy(buttonSize);
+    ImGui::Dummy(atributes.mainMenuButtonSize);
 
-    const char *structures[] = {"Pilha", "Fila", "Deque", "Lista"};
-    for (int i = 1; i <= sizeof(structures) / sizeof(structures[0]); i++) {
+    for (int i = 1; i < 5; i++) {
       StyleButton(i);
-      if (ButtonCenteredOnLine(structures[i - 1], buttonSize)) {
-        structureIdentifier = 1;
+      if (ButtonCenteredOnLine(atributes.structures[i], atributes.mainMenuButtonSize)) {
+        atributes.screenIdentifier = i;
       }
       PopStyleColor(1, 5);
     }
   }
 
   ImGui::End();
-  return structureIdentifier;
 }
 
-bool GraphicsScreen(ImVec2 windowSize, int structureIdentifier) {
+void GraphicsScreen(ImVec2 windowSize, ScreenAtributes& atributes) {
   Graphics::StackGraphics sg;
-  ImVec2 buttonSize(windowSize.x / 12, windowSize.y / 15);
-
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
   ImGui::SetNextWindowSize(windowSize);
@@ -49,29 +60,24 @@ bool GraphicsScreen(ImVec2 windowSize, int structureIdentifier) {
                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
                        ImGuiWindowFlags_NoTitleBar)) {
 
-    const char *structures[] = {"Pilha", "Fila", "Deque", "Lista"};
-    ImGui::SeparatorText(structures[structureIdentifier - 1]);
+    ImGui::SeparatorText(atributes.structures[atributes.screenIdentifier]);
 
     ImGui::SetWindowFontScale(1.3);
-    StyleButton(structureIdentifier - 1);
-    if (ImGui::Button("Add", buttonSize)) {
+    StyleButton(atributes.screenIdentifier);
+    if (ImGui::Button("Add", atributes.graphicsScreenButtonSize)) {
       sg.stack.push(1);
       sg.stack.push(2);
-
     }
     ImGui::SameLine();
-    if (ImGui::Button("Remove", buttonSize)) {
+    if (ImGui::Button("Remove", atributes.graphicsScreenButtonSize)) {
       sg.stack.pop();
-
     }
     ImGui::SameLine();
-    if (ImGui::Button("Sair", buttonSize)) {
-      structureIdentifier = 0;
-
+    if (ImGui::Button("Sair", atributes.graphicsScreenButtonSize)) {
+      atributes.screenIdentifier = 0;
     }
   }
   PopStyleColor(1, 5);
   ImGui::End();
   sg.Draw();
-  return structureIdentifier;
 }

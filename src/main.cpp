@@ -11,10 +11,6 @@ int main() {
   raylib::Window window(854, 480);
   SetTargetFPS(60);
 
-  float h = GetScreenHeight();
-  float w = GetScreenWidth();
-  ImVec2 windowSize(w, h);
-
   /*
     0: Main Menu
     1: Stack
@@ -22,8 +18,8 @@ int main() {
     3: Deque
     4: List
   */
-  int currentScreen = 0;
 
+  ScreenAtributes atributes(ImVec2(GetScreenWidth(), GetScreenHeight()));
   rlImGuiSetup(true);
 
   while (WindowShouldClose() == false) {
@@ -32,10 +28,10 @@ int main() {
     rlImGuiBegin();
 
     ClearBackground(raylib::Color::FromHSV(249, 0.3607, 0.1464));
-    if (currentScreen == 0) {
-      currentScreen = MainMenuScreen(windowSize);
+    if (atributes.screenIdentifier == 0) {
+      MainMenuScreen(atributes.windowSize, atributes);
     } else {
-      currentScreen = GraphicsScreen(windowSize,currentScreen);
+      GraphicsScreen(atributes.windowSize,atributes);
     }
 
     rlImGuiEnd();

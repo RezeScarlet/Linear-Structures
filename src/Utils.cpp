@@ -12,7 +12,7 @@ void StyleButton(int mode) {
 
   ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1);
 
-  ImGui::PushStyleColor(ImGuiCol_Text, colors[mode - 1]);
+  ImGui::PushStyleColor(ImGuiCol_Text, colors[mode- 1]);
   ImGui::PushStyleColor(ImGuiCol_Button, (ImVec4)ImColor(64, 61, 82));
   ImGui::PushStyleColor(ImGuiCol_ButtonHovered, (ImVec4)ImColor(82, 79, 103));
   ImGui::PushStyleColor(ImGuiCol_ButtonActive, (ImVec4)ImColor(33, 32, 46));
