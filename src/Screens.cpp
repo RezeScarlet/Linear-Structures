@@ -53,8 +53,13 @@ void MainMenuScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
   ImGui::End();
 }
 
+<<<<<<< Updated upstream
 void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
                     Graphics::StackGraphics &stackGraphics) {
+=======
+void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
+  Graphics::StackGraphics sg;
+>>>>>>> Stashed changes
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
   ImGui::SetNextWindowSize(windowSize);

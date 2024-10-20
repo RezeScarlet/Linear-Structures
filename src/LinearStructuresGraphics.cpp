@@ -38,6 +38,18 @@ StackGraphics::StackGraphics(int fontSize, raylib::Vector2 nodeCenter,
   this->outlineColor = outlineColor;
 }
 
+QueueGraphics::QueueGraphics(int fontSize, raylib::Vector2 nodeCenter,
+                             int nodeRadius, int nodeGap,
+                             raylib::Color fontColor,
+                             raylib::Color outlineColor) {
+  this->fontSize = fontSize;
+  this->nodeCenter = nodeCenter;
+  this->nodeRadius = nodeRadius;
+  this->nodeGap = nodeGap;
+  this->fontColor = fontColor;
+  this->outlineColor = outlineColor;
+}
+
 void StackGraphics::Draw() {
   std::stack<int> stackCopy = stack;
 
