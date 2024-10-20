@@ -1,4 +1,5 @@
 #pragma once
+#include "LinearStructuresGraphics.hpp"
 #include <imgui.h>
 #include <raylib-cpp.hpp>
 #include <raylib.h>
@@ -15,6 +16,7 @@ public:
   ScreenAtributes(ImVec2 windowSize);
 };
 
-void MainMenuScreen(ImVec2 windowSize, ScreenAtributes& atributes);
+void MainMenuScreen(ImVec2 windowSize, ScreenAtributes &atributes);
 
-void GraphicsScreen(ImVec2 windowSize, ScreenAtributes& atributes);
+void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
+                    Graphics::StackGraphics &stackGraphics);

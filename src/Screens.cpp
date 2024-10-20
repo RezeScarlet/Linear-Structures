@@ -6,6 +6,7 @@
 #include <raylib-cpp.hpp>
 #include <raylib.h>
 #include <rlImGui.h>
+#include <string>
 
 ScreenAtributes::ScreenAtributes(ImVec2 windowSize) {
   this->windowSize = windowSize;
@@ -22,7 +23,7 @@ ScreenAtributes::ScreenAtributes(ImVec2 windowSize) {
   this->graphicsScreenButtonSize = ImVec2(windowSize.x / 12, windowSize.y / 15);
 }
 
-void MainMenuScreen(ImVec2 windowSize, ScreenAtributes& atributes) {
+void MainMenuScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
 
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -41,7 +42,8 @@ void MainMenuScreen(ImVec2 windowSize, ScreenAtributes& atributes) {
 
     for (int i = 1; i < 5; i++) {
       StyleButton(i);
-      if (ButtonCenteredOnLine(atributes.structures[i], atributes.mainMenuButtonSize)) {
+      if (ButtonCenteredOnLine(atributes.structures[i],
+                               atributes.mainMenuButtonSize)) {
         atributes.screenIdentifier = i;
       }
       PopStyleColor(1, 5);
@@ -51,8 +53,8 @@ void MainMenuScreen(ImVec2 windowSize, ScreenAtributes& atributes) {
   ImGui::End();
 }
 
-void GraphicsScreen(ImVec2 windowSize, ScreenAtributes& atributes) {
-  Graphics::StackGraphics sg;
+void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
+                    Graphics::StackGraphics &stackGraphics) {
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
   ImGui::SetNextWindowSize(windowSize);
@@ -63,21 +65,61 @@ void GraphicsScreen(ImVec2 windowSize, ScreenAtributes& atributes) {
     ImGui::SeparatorText(atributes.structures[atributes.screenIdentifier]);
 
     ImGui::SetWindowFontScale(1.3);
+
+    ImGui::PushItemWidth(40);
+    static char insertValue[32] = "";
+    ImGui::InputText(" ", insertValue, 32);
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
     StyleButton(atributes.screenIdentifier);
-    if (ImGui::Button("Add", atributes.graphicsScreenButtonSize)) {
-      sg.stack.push(1);
-      sg.stack.push(2);
+    if (ImGui::Button("Empilhar", atributes.graphicsScreenButtonSize)) {
+      switch (atributes.screenIdentifier) {
+      case 1:
+
+        stackGraphics.stack.push(std::atoi(insertValue));
+
+        break;
+      case 2:
+        // queueGraphics.queue.push(1);
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      }
     }
     ImGui::SameLine();
-    if (ImGui::Button("Remove", atributes.graphicsScreenButtonSize)) {
-      sg.stack.pop();
+    if (ImGui::Button("Desempilhar", atributes.graphicsScreenButtonSize)) {
+      switch (atributes.screenIdentifier) {
+      case 1:
+        stackGraphics.stack.pop();
+        break;
+      case 2:
+        // queueGraphics.queue.pop();
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      }
     }
     ImGui::SameLine();
     if (ImGui::Button("Sair", atributes.graphicsScreenButtonSize)) {
       atributes.screenIdentifier = 0;
     }
   }
+  switch (atributes.screenIdentifier) {
+  case 1:
+    stackGraphics.Draw();
+    break;
+  case 2:
+    // queueGraphics.Draw();
+    break;
+  case 3:
+    break;
+  case 4:
+    break;
+  }
   PopStyleColor(1, 5);
   ImGui::End();
-  sg.Draw();
 }

@@ -1,4 +1,5 @@
 #include "Color.hpp"
+#include "LinearStructuresGraphics.hpp"
 #include <Screens.hpp>
 #include <imgui.h>
 #include <raylib-cpp.hpp>
@@ -20,6 +21,8 @@ int main() {
   */
 
   ScreenAtributes atributes(ImVec2(GetScreenWidth(), GetScreenHeight()));
+  Graphics::StackGraphics stackGraphics;
+  // Graphics::QueueGraphics queueGraphics;
   rlImGuiSetup(true);
 
   while (WindowShouldClose() == false) {
@@ -31,7 +34,7 @@ int main() {
     if (atributes.screenIdentifier == 0) {
       MainMenuScreen(atributes.windowSize, atributes);
     } else {
-      GraphicsScreen(atributes.windowSize,atributes);
+      GraphicsScreen(atributes.windowSize, atributes, stackGraphics);
     }
 
     rlImGuiEnd();
