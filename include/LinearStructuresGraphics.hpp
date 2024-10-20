@@ -24,7 +24,7 @@ public:
 
   StackGraphics(int fontSize = 20,
                 raylib::Vector2 nodeCenter = {(float)GetScreenWidth() / 2,
-                                              (float)GetScreenHeight() + 40},
+                                              (float)GetScreenHeight()},
                 int nodeRadius = 30, int nodeGap = -75,
                 raylib::Color fontColor = raylib::Color::Red(),
                 raylib::Color outlineColor = raylib::Color::Red());
@@ -49,4 +49,5 @@ public:
 int fixNodeTextSize(std::string nodeText, float nodeTextWidth, float nodeRadius,
                     int fontSize);
 
+double toRadians(double degree);
 } // namespace Graphics
