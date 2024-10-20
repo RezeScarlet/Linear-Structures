@@ -16,6 +16,9 @@ protected:
   int fontSize;
   raylib::Color fontColor;
   raylib::Color outlineColor;
+
+  virtual void Draw() = 0;
+  virtual ~LinearStructuresGraphics() = default;
 };
 
 class StackGraphics : public LinearStructuresGraphics {
@@ -46,8 +49,8 @@ public:
   void Draw();
 };
 
-int fixNodeTextSize(std::string nodeText, float nodeTextWidth, float nodeRadius,
-                    int fontSize);
+int CenterNodeText(std::string nodeText, float nodeTextWidth, float nodeRadius,
+                   int fontSize);
 
-double toRadians(double degree);
+double ToRadians(double degree);
 } // namespace Graphics

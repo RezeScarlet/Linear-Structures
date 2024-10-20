@@ -10,8 +10,8 @@
 
 namespace Graphics {
 
-int fixNodeTextSize(std::string nodeText, float nodeTextWidth, float nodeRadius,
-                    int fontSize) {
+int CenterNodeText(std::string nodeText, float nodeTextWidth, float nodeRadius,
+                   int fontSize) {
   while (nodeTextWidth >
          nodeRadius) { // change fontSize in cases where the text is too big
     fontSize /= 2;
@@ -21,7 +21,7 @@ int fixNodeTextSize(std::string nodeText, float nodeTextWidth, float nodeRadius,
   return fontSize;
 }
 
-double toRadians(double degree) {
+double ToRadians(double degree) {
   double pi = 3.14159265359;
   return (degree * (pi / 180));
 }
@@ -47,7 +47,7 @@ void StackGraphics::Draw() {
 
     std::string nodeText = std::to_string(stackCopy.top());
     float nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
-    fontSize = fixNodeTextSize(nodeText, nodeTextWidth, nodeRadius, fontSize);
+    fontSize = CenterNodeText(nodeText, nodeTextWidth, nodeRadius, fontSize);
     float nodeTextHeight = fontSize;
 
     float textX = nodeCenter.x - (nodeTextWidth / 2);
@@ -60,13 +60,13 @@ void StackGraphics::Draw() {
     // arrows
     // initial point (45º)
     raylib::Vector2 arrowStart = {
-        nodeCenter.x + (float)std::cos(toRadians(45)) * nodeRadius,
-        nodeCenter.y + (float)std::cos(toRadians(45)) * nodeRadius};
+        nodeCenter.x + (float)std::cos(ToRadians(45)) * nodeRadius,
+        nodeCenter.y + (float)std::cos(ToRadians(45)) * nodeRadius};
 
     // final point (315º)
     raylib::Vector2 arrowEnd = {
-        previousNodeCenter.x + (float)std::cos(toRadians(315)) * nodeRadius,
-        previousNodeCenter.y + (float)std::cos(toRadians(315)) * nodeRadius};
+        previousNodeCenter.x + (float)std::cos(ToRadians(315)) * nodeRadius,
+        previousNodeCenter.y + (float)std::cos(ToRadians(315)) * nodeRadius};
 
     // arrow spline control points
     raylib::Vector2 arrowControl = {(arrowStart.x + arrowEnd.x) / 2 + 20,
@@ -84,7 +84,7 @@ void QueueGraphics::Draw() {
   for (int i = 0; i < queue.size(); i++) {
     std::string nodeText = std::to_string(queueCopy.front());
     float nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
-    fontSize = fixNodeTextSize(nodeText, nodeTextWidth, nodeRadius, fontSize);
+    fontSize = CenterNodeText(nodeText, nodeTextWidth, nodeRadius, fontSize);
     float nodeTextHeight = fontSize;
 
     float textX = (i * nodeGap) + nodeCenter.x - (nodeTextWidth / 2);
