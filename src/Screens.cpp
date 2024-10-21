@@ -1,6 +1,7 @@
 #include "Screens.hpp"
 #include "LinearStructuresGraphics.hpp"
 #include "Utils.hpp"
+#include <deque>
 #include <imgui.h>
 #include <iostream>
 #include <raylib-cpp.hpp>
@@ -53,13 +54,11 @@ void MainMenuScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
   ImGui::End();
 }
 
-<<<<<<< Updated upstream
 void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
-                    Graphics::StackGraphics &stackGraphics) {
-=======
-void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
-  Graphics::StackGraphics sg;
->>>>>>> Stashed changes
+                    Graphics::StackGraphics &stackGraphics,
+                    Graphics::QueueGraphics &queueGraphics,
+                    Graphics::DequeGraphics &dequeGraphics,
+                    Graphics::ListGraphics &listGraphics) {
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
   ImGui::SetNextWindowSize(windowSize);
@@ -80,16 +79,16 @@ void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
     if (ImGui::Button("Empilhar", atributes.graphicsScreenButtonSize)) {
       switch (atributes.screenIdentifier) {
       case 1:
-
         stackGraphics.stack.push(std::atoi(insertValue));
-
         break;
       case 2:
-        // queueGraphics.queue.push(1);
+        queueGraphics.queue.push(std::atoi(insertValue));
         break;
       case 3:
+        dequeGraphics.deque.push_front(std::atoi(insertValue));
         break;
       case 4:
+        listGraphics.list.push_front(std::atoi(insertValue));
         break;
       }
     }
@@ -97,10 +96,14 @@ void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
     if (ImGui::Button("Desempilhar", atributes.graphicsScreenButtonSize)) {
       switch (atributes.screenIdentifier) {
       case 1:
-        stackGraphics.stack.pop();
+        if (!stackGraphics.stack.empty()) {
+          stackGraphics.stack.pop();
+        }
         break;
       case 2:
-        // queueGraphics.queue.pop();
+        if (!queueGraphics.queue.empty()) {
+          queueGraphics.queue.pop();
+        }
         break;
       case 3:
         break;
@@ -118,11 +121,13 @@ void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
     stackGraphics.Draw();
     break;
   case 2:
-    // queueGraphics.Draw();
+    queueGraphics.Draw();
     break;
   case 3:
+      dequeGraphics.Draw();
     break;
   case 4:
+      listGraphics.Draw();
     break;
   }
   PopStyleColor(1, 5);

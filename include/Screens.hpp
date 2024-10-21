@@ -19,4 +19,7 @@ public:
 void MainMenuScreen(ImVec2 windowSize, ScreenAtributes &atributes);
 
 void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
-                    Graphics::StackGraphics &stackGraphics);
+                    Graphics::StackGraphics &stackGraphics,
+                    Graphics::QueueGraphics &queueGraphics,
+                    Graphics::DequeGraphics &dequeGraphics,
+                    Graphics::ListGraphics &listGraphics);
