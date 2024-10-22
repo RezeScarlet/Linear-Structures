@@ -6,6 +6,8 @@
 #include <raylib.h>
 #include <rlImGui.h>
 
+/*Desenvolvido por Aloísio Marques Lingo Filho e Guilherme de Souza Dionisio
+ * Rosseti*/
 int main() {
 
   SetConfigFlags(FLAG_MSAA_4X_HINT);
