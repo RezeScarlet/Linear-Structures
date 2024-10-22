@@ -2,11 +2,8 @@
 #include "Functions.hpp"
 #include "Vector2.hpp"
 #include <cmath>
-#include <list>
-#include <queue>
 #include <raylib-cpp.hpp>
 #include <raylib.h>
-#include <stack>
 #include <string>
 
 namespace Graphics {
@@ -49,7 +46,7 @@ void DrawArrows(raylib::Vector2 nodeCenter, raylib::Vector2 previousNodeCenter,
                                    arrowColor);
 }
 
-StackGraphics::StackGraphics(int fontSize, raylib::Vector2 nodeCenter,
+LinearStructuresGraphics::LinearStructuresGraphics(int fontSize, raylib::Vector2 nodeCenter,
                              int nodeRadius, int nodeGap,
                              raylib::Color fontColor,
                              raylib::Color outlineColor) {
@@ -61,48 +58,12 @@ StackGraphics::StackGraphics(int fontSize, raylib::Vector2 nodeCenter,
   this->outlineColor = outlineColor;
 }
 
-QueueGraphics::QueueGraphics(int fontSize, raylib::Vector2 nodeCenter,
-                             int nodeRadius, int nodeGap,
-                             raylib::Color fontColor,
-                             raylib::Color outlineColor) {
-  this->fontSize = fontSize;
-  this->nodeCenter = nodeCenter;
-  this->nodeRadius = nodeRadius;
-  this->nodeGap = nodeGap;
-  this->fontColor = fontColor;
-  this->outlineColor = outlineColor;
-}
-DequeGraphics::DequeGraphics(int fontSize, raylib::Vector2 nodeCenter,
-                             int nodeRadius, int nodeGap,
-                             raylib::Color fontColor,
-                             raylib::Color outlineColor) {
-  this->fontSize = fontSize;
-  this->nodeCenter = nodeCenter;
-  this->nodeRadius = nodeRadius;
-  this->nodeGap = nodeGap;
-  this->fontColor = fontColor;
-  this->outlineColor = outlineColor;
-}
-
-ListGraphics::ListGraphics(int fontSize, raylib::Vector2 nodeCenter,
-                           int nodeRadius, int nodeGap, raylib::Color fontColor,
-                           raylib::Color outlineColor) {
-  this->fontSize = fontSize;
-  this->nodeCenter = nodeCenter;
-  this->nodeRadius = nodeRadius;
-  this->nodeGap = nodeGap;
-  this->fontColor = fontColor;
-  this->outlineColor = outlineColor;
-}
-
-void StackGraphics::Draw() {
-  std::stack<int> stackCopy = stack;
-
-  for (int i = stackCopy.size(); i > 0; i--) {
+void LinearStructuresGraphics::DrawStack() {
+  for (int i = v.size() - 1; i >= 0; i--) {
     raylib::Vector2 previousNodeCenter = {nodeCenter.x,
                                           (i * nodeGap) + nodeCenter.y};
 
-    std::string nodeText = std::to_string(stackCopy.top());
+    std::string nodeText = std::to_string(v.at(i));
     float nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
     fontSize = CenterNodeText(nodeText, nodeTextWidth, nodeRadius, fontSize);
     float nodeTextHeight = fontSize;
@@ -115,16 +76,14 @@ void StackGraphics::Draw() {
     DrawArrows(nodeCenter, previousNodeCenter, nodeRadius,
                raylib::Color::Blue());
 
-    stackCopy.pop();
   }
 }
 
-void QueueGraphics::Draw() {
-  std::queue<int> queueCopy = queue;
-  for (int i = 0; i < queue.size(); i++) {
+void LinearStructuresGraphics::DrawQueue() {
+  for (int i = 0; i < v.size(); i++) {
     raylib::Vector2 previousNodeCenter = {nodeCenter.x,
                                           (i * nodeGap) + nodeCenter.y};
-    std::string nodeText = std::to_string(queueCopy.front());
+    std::string nodeText = std::to_string(v.at(i));
     float nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
     fontSize = CenterNodeText(nodeText, nodeTextWidth, nodeRadius, fontSize);
     float nodeTextHeight = fontSize;
@@ -137,17 +96,15 @@ void QueueGraphics::Draw() {
                     outlineColor);
     DrawArrows(nodeCenter, previousNodeCenter, nodeRadius,
                raylib::Color::Blue());
-    queueCopy.pop();
   }
 }
 
 /* TODO FIX DEQUE AND LIST DRAW LOOP */
-void DequeGraphics::Draw() {
-  std::deque<int> dequeCopy = deque;
-  for (int i = 0; i < deque.size(); i++) {
+void LinearStructuresGraphics::DrawDeque() {
+  for (int i = 0; i < v.size(); i++) {
     raylib::Vector2 previousNodeCenter = {nodeCenter.x,
                                           (i * nodeGap) + nodeCenter.y};
-    std::string nodeText = std::to_string(dequeCopy.front());
+    std::string nodeText = std::to_string(v.at(i));
     float nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
     fontSize = CenterNodeText(nodeText, nodeTextWidth, nodeRadius, fontSize);
     float nodeTextHeight = fontSize;
@@ -161,16 +118,14 @@ void DequeGraphics::Draw() {
     DrawArrows(nodeCenter, previousNodeCenter, nodeRadius,
                raylib::Color::Blue());
 
-    dequeCopy.pop_front();
   }
 }
 
-void ListGraphics::Draw() {
-  std::list<int> listCopy = list;
-  for (int i = 0; i < list.size(); i++) {
+void LinearStructuresGraphics::DrawList() {
+  for (int i = 0; i < v.size(); i++) {
     raylib::Vector2 previousNodeCenter = {nodeCenter.x,
                                           (i * nodeGap) + nodeCenter.y};
-    std::string nodeText = std::to_string(listCopy.front());
+    std::string nodeText = std::to_string(v.at(i));
     float nodeTextWidth = raylib::MeasureText(nodeText.c_str(), fontSize);
     fontSize = CenterNodeText(nodeText, nodeTextWidth, nodeRadius, fontSize);
     float nodeTextHeight = fontSize;
@@ -184,7 +139,6 @@ void ListGraphics::Draw() {
     DrawArrows(nodeCenter, previousNodeCenter, nodeRadius,
                raylib::Color::Blue());
 
-    listCopy.pop_front();
   }
 }
 /* TODO FIX DEQUE AND LIST DRAW LOOP */

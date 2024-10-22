@@ -21,10 +21,7 @@ int main() {
   */
 
   ScreenAtributes atributes(ImVec2(GetScreenWidth(), GetScreenHeight()));
-  Graphics::StackGraphics stackGraphics;
-  Graphics::QueueGraphics queueGraphics;
-  Graphics::DequeGraphics dequeGraphics;
-  Graphics::ListGraphics listGraphics;
+  Graphics::LinearStructuresGraphics LinearStructure;
 
   rlImGuiSetup(true);
 
@@ -37,8 +34,7 @@ int main() {
     if (atributes.screenIdentifier == 0) {
       MainMenuScreen(atributes.windowSize, atributes);
     } else {
-      GraphicsScreen(atributes.windowSize, atributes, stackGraphics,
-                     queueGraphics, dequeGraphics, listGraphics);
+      GraphicsScreen(atributes.windowSize, atributes, LinearStructure);
     }
 
     rlImGuiEnd();

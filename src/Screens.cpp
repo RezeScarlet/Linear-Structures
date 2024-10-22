@@ -1,13 +1,10 @@
 #include "Screens.hpp"
-#include "LinearStructuresGraphics.hpp"
 #include "Utils.hpp"
-#include <deque>
+#include <cstdlib>
 #include <imgui.h>
-#include <iostream>
 #include <raylib-cpp.hpp>
 #include <raylib.h>
 #include <rlImGui.h>
-#include <string>
 
 ScreenAtributes::ScreenAtributes(ImVec2 windowSize) {
   this->windowSize = windowSize;
@@ -21,7 +18,7 @@ ScreenAtributes::ScreenAtributes(ImVec2 windowSize) {
   this->structures[4] = "Lista";
 
   this->mainMenuButtonSize = ImVec2(windowSize.x / 5, windowSize.y / 8);
-  this->graphicsScreenButtonSize = ImVec2(windowSize.x / 12, windowSize.y / 15);
+  this->graphicsScreenButtonSize = ImVec2(windowSize.x / 7, windowSize.y / 21);
 }
 
 void MainMenuScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
@@ -55,10 +52,7 @@ void MainMenuScreen(ImVec2 windowSize, ScreenAtributes &atributes) {
 }
 
 void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
-                    Graphics::StackGraphics &stackGraphics,
-                    Graphics::QueueGraphics &queueGraphics,
-                    Graphics::DequeGraphics &dequeGraphics,
-                    Graphics::ListGraphics &listGraphics) {
+                    Graphics::LinearStructuresGraphics &linearStructure) {
   ImGui::SetNextWindowBgAlpha(0);
   ImGui::SetNextWindowPos(ImVec2(0, 0));
   ImGui::SetNextWindowSize(windowSize);
@@ -70,64 +64,92 @@ void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
 
     ImGui::SetWindowFontScale(1.3);
 
-    ImGui::PushItemWidth(40);
-    static char insertValue[32] = "";
-    ImGui::InputText(" ", insertValue, 32);
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
     StyleButton(atributes.screenIdentifier);
-    if (ImGui::Button("Empilhar", atributes.graphicsScreenButtonSize)) {
-      switch (atributes.screenIdentifier) {
-      case 1:
-        stackGraphics.stack.push(std::atoi(insertValue));
-        break;
-      case 2:
-        queueGraphics.queue.push(std::atoi(insertValue));
-        break;
-      case 3:
-        dequeGraphics.deque.push_front(std::atoi(insertValue));
-        break;
-      case 4:
-        listGraphics.list.push_front(std::atoi(insertValue));
-        break;
-      }
+    ImGui::PushItemWidth(40);
+    // ImGui::Text("Valor");
+    // ImGui::SameLine();
+    static char insertValue[32] = "1";
+    ImGui::InputText("Valor", insertValue, 32);
+    ImGui::PopItemWidth();
+
+    ImGui::SameLine();
+
+    static char insertPosition[32] = "0";
+    if (atributes.screenIdentifier == 4) {
+      ImGui::PushItemWidth(40);
+      // ImGui::Text("Posição");
+      // ImGui::SameLine();
+      ImGui::InputText("Posição", insertPosition, 32);
+      ImGui::PopItemWidth();
+    }
+    static int e = 0;
+    if (atributes.screenIdentifier == 3) {
+      ImGui::PushItemWidth(40);
+      ImGui::RadioButton("Inicio", &e, 0);
+      ImGui::SameLine();
+      ImGui::RadioButton("Fim", &e, 1);
+      ImGui::PopItemWidth();
     }
     ImGui::SameLine();
-    if (ImGui::Button("Desempilhar", atributes.graphicsScreenButtonSize)) {
-      switch (atributes.screenIdentifier) {
-      case 1:
-        if (!stackGraphics.stack.empty()) {
-          stackGraphics.stack.pop();
+    if (ImGui::Button("Adicionar", atributes.graphicsScreenButtonSize)) {
+      if (atributes.screenIdentifier == 3) {
+        if (e == 0) {
+          linearStructure.v.insert(linearStructure.v.begin(),
+                                   std::atoi(insertValue));
+        } else {
+          linearStructure.v.insert(linearStructure.v.end(),
+                                   std::atoi(insertValue));
         }
-        break;
-      case 2:
-        if (!queueGraphics.queue.empty()) {
-          queueGraphics.queue.pop();
-        }
-        break;
-      case 3:
-        break;
-      case 4:
-        break;
+      } else {
+        linearStructure.v.insert(linearStructure.v.begin() +
+                                     std::atoi(insertPosition),
+                                 std::atoi(insertValue));
+      }
+      if (atributes.screenIdentifier == 4) {
+        snprintf(insertPosition, sizeof(insertPosition), "%d",
+                 atoi(insertPosition) + 1); // Converte de volta para string
       }
     }
+
     ImGui::SameLine();
+
+    if (ImGui::Button("Remover", atributes.graphicsScreenButtonSize)) {
+      if (!linearStructure.v.empty()) {
+        if (atributes.screenIdentifier == 3) {
+          if (e == 0) {
+            linearStructure.v.erase(linearStructure.v.begin());
+          } else {
+            linearStructure.v.erase(linearStructure.v.end());
+          }
+        } else {
+          linearStructure.v.erase(linearStructure.v.begin() +
+                                  std::atoi(insertPosition));
+        }
+        if (atributes.screenIdentifier == 4) {
+          snprintf(insertPosition, sizeof(insertPosition), "%d",
+                   atoi(insertPosition) - 1); // Converte de volta para string
+        }
+      }
+    }
+
+    ImGui::SameLine();
+
     if (ImGui::Button("Sair", atributes.graphicsScreenButtonSize)) {
       atributes.screenIdentifier = 0;
     }
   }
   switch (atributes.screenIdentifier) {
   case 1:
-    stackGraphics.Draw();
+    linearStructure.DrawStack();
     break;
   case 2:
-    queueGraphics.Draw();
+    linearStructure.DrawQueue();
     break;
   case 3:
-      dequeGraphics.Draw();
+    linearStructure.DrawDeque();
     break;
   case 4:
-      listGraphics.Draw();
+    linearStructure.DrawList();
     break;
   }
   PopStyleColor(1, 5);
