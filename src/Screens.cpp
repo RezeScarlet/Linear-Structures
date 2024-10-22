@@ -92,7 +92,10 @@ void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
     }
     ImGui::SameLine();
     if (ImGui::Button("Adicionar", atributes.graphicsScreenButtonSize)) {
-      if (atributes.screenIdentifier == 3) {
+      if (atributes.screenIdentifier == 1) {
+        linearStructure.v.insert(linearStructure.v.end(),
+                                 std::atoi(insertValue));
+      } else if (atributes.screenIdentifier == 3) {
         if (e == 0) {
           linearStructure.v.insert(linearStructure.v.begin(),
                                    std::atoi(insertValue));
@@ -115,7 +118,9 @@ void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
 
     if (ImGui::Button("Remover", atributes.graphicsScreenButtonSize)) {
       if (!linearStructure.v.empty()) {
-        if (atributes.screenIdentifier == 3) {
+        if (atributes.screenIdentifier == 2) {
+          linearStructure.v.erase(linearStructure.v.end()); // to com preguiça de simplesmente ajustar a fila pra apagar do inicio.
+        } else if (atributes.screenIdentifier == 3) {
           if (e == 0) {
             linearStructure.v.erase(linearStructure.v.begin());
           } else {
@@ -135,6 +140,7 @@ void GraphicsScreen(ImVec2 windowSize, ScreenAtributes &atributes,
     ImGui::SameLine();
 
     if (ImGui::Button("Sair", atributes.graphicsScreenButtonSize)) {
+      linearStructure.v.clear();
       atributes.screenIdentifier = 0;
     }
   }
