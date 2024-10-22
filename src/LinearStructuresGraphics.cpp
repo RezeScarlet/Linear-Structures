@@ -87,7 +87,8 @@ LinearStructuresGraphics::LinearStructuresGraphics(int fontSize,
 void LinearStructuresGraphics::DrawStack() {
   nodeCenter.x = (float)GetScreenWidth() / 2;
   nodeCenter.y = (float)GetScreenHeight() - 40;
-
+  outlineColor = raylib::Color(235, 111, 146);
+  fontColor = outlineColor;
   for (int i = v.size() - 1; i >= 0; i--) {
 
     if (i == v.size() - 1) {
@@ -127,6 +128,8 @@ void LinearStructuresGraphics::DrawQueue() {
   nodeCenter.x = (float)GetScreenWidth() - 40;
   nodeCenter.y = (float)GetScreenHeight() / 2;
 
+  outlineColor = raylib::Color(235, 188, 186);
+  fontColor = outlineColor;
   for (int i = 0; i < v.size(); i++) {
     if (v.size() == 1) {
       DrawSideNodeText("INÍCIO",
@@ -174,6 +177,13 @@ void LinearStructuresGraphics::DrawQueue() {
 void LinearStructuresGraphics::DrawDeque() {
   nodeCenter.x = (float)GetScreenWidth() - 40;
   nodeCenter.y = (float)GetScreenHeight() / 2;
+  outlineColor = raylib::Color(196, 167, 231);
+  fontColor = outlineColor;
+  /*ImColor(235, 111, 146), // Red
+  ImColor(235, 188, 186), // Pink
+  ImColor(196, 167, 231), // Purple
+  ImColor(156, 207, 216), // Turquoise
+  */
 
   for (int i = 0; i < v.size(); i++) {
     if (v.size() == 1) {
@@ -212,11 +222,12 @@ void LinearStructuresGraphics::DrawDeque() {
     raylib::Vector2 nextTextPosition = {(i * nodeGap) + nodeCenter.x + 40 -
                                             (nextTextWidth / 2),
                                         nodeCenter.y - (nextTextHeight / 2)};
-    raylib::DrawText("próximo", nextTextPosition.x - 75, nextTextPosition.y - 35, 14,
-                     raylib::Color::Blue());
+    raylib::DrawText("próximo", nextTextPosition.x - 75,
+                     nextTextPosition.y - 35, 14, raylib::Color::Blue());
 
     DrawLineV({(i * nodeGap) + nodeCenter.x + 30, nodeCenter.y - 20},
-              {nextNodeCenter.x + (i * nodeGap), nextNodeCenter.y - 20}, raylib::Color::Blue());
+              {nextNodeCenter.x + (i * nodeGap), nextNodeCenter.y - 20},
+              raylib::Color::Blue());
 
     nextTextWidth = raylib::MeasureText("anterior", 14);
 
@@ -236,6 +247,8 @@ void LinearStructuresGraphics::DrawDeque() {
 void LinearStructuresGraphics::DrawList() {
   nodeCenter.x = (float)GetScreenWidth() - 40;
   nodeCenter.y = (float)GetScreenHeight() / 2;
+  outlineColor = raylib::Color(156, 207, 216);
+  fontColor = outlineColor;
   for (int i = 0; i < v.size(); i++) {
     if (v.size() == 1) {
       DrawSideNodeText("INÍCIO",
@@ -272,11 +285,12 @@ void LinearStructuresGraphics::DrawList() {
     raylib::Vector2 nextTextPosition = {(i * nodeGap) + nodeCenter.x + 40 -
                                             (nextTextWidth / 2),
                                         nodeCenter.y - (nextTextHeight / 2)};
-    raylib::DrawText("próximo", nextTextPosition.x - 75, nextTextPosition.y - 35, 14,
-                     raylib::Color::Blue());
+    raylib::DrawText("próximo", nextTextPosition.x - 75,
+                     nextTextPosition.y - 35, 14, raylib::Color::Blue());
 
     DrawLineV({(i * nodeGap) + nodeCenter.x + 30, nodeCenter.y - 20},
-              {nextNodeCenter.x + (i * nodeGap), nextNodeCenter.y - 20}, raylib::Color::Blue());
+              {nextNodeCenter.x + (i * nodeGap), nextNodeCenter.y - 20},
+              raylib::Color::Blue());
 
     nextTextWidth = raylib::MeasureText("anterior", 14);
 
