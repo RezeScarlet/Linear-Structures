@@ -11,7 +11,7 @@
 int main() {
 
   SetConfigFlags(FLAG_MSAA_4X_HINT);
-  raylib::Window window(854, 480);
+  raylib::Window window(1280, 720); // 854, 480
   SetTargetFPS(60);
 
   /*
